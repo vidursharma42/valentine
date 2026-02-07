@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --red:#ff4d6d;
+  --pink:#ffe6eb;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  height:100vh;
+  background:linear-gradient(135deg,#ffe6eb,#fff);
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Quicksand',sans-serif;
+}
+
+/* Floating hearts */
+.heart{
+  position:absolute;
+  bottom:-40px;
+  animation:float 8s linear infinite;
+  opacity:.7;
+}
+@keyframes float{
+  0%{transform:translateY(0) scale(.7);opacity:0}
+  20%{opacity:1}
+  100%{transform:translateY(-120vh) scale(1.2);opacity:0}
+}
+
+/* Card */
+.container{
+  background:white;
+  width:90%;
+  max-width:360px;
+  border-radius:22px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+  z-index:2;
+}
+
+h1{
+  font-family:'Pacifico';
+  color:var(--red);
+  margin-bottom:10px;
+}
+
+.teddy{font-size:90px}
+
+/* Envelope */
+.envelope{
+  background:#ffeef3;
+  padding:16px;
+  border-radius:16px;
+  font-family:'Pacifico';
+  color:var(--red);
+  margin-top:15px;
+  position:relative;
+}
+
+.envelope-text{
+  margin-bottom:16px;
+  font-size:18px;
+}
+
+/* Buttons container INSIDE envelope */
+.buttons{
+  position:relative;
+  height:130px; /* enough vertical room for diagonal movement */
+}
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(-3px, 0); }
+  50% { transform: translate(3px, 0); }
+  75% { transform: translate(-3px, 0); }
+  100% { transform: translate(0,0); }
+}
+
+.shake {
+  animation: shake 0.15s 2;
+}
+
+
+/* Buttons */
+button{
+  padding:12px 26px;
+  border:none;
+  border-radius:40px;
+  font-size:18px;
+  font-family:'Pacifico';
+  cursor:pointer;
+  position:absolute;
+  transition:transform .35s ease;
+  white-space:nowrap;
+}
+
+#yes{
+  background:var(--red);
+  color:white;
+  left:10%;
+}
+
+#no{
+  background:#e0e0e0;
+  color:#444;
+  right:10%;
+}
+
+/* Heartbeat */
+.heartbeat{
+  animation:beat .6s infinite;
+}
+@keyframes beat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.12)}
+}
+
+/* Popup */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:5;
+}
+.popup-content{
+  background:white;
+  width:85%;
+  max-width:320px;
+  padding:22px;
+  border-radius:20px;
+  text-align:center;
+  animation:pop .4s ease;
+}
+@keyframes pop{
+  from{transform:scale(.6);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* Slideshow */
+.slideshow{
+  margin-top:12px;
+}
+
+.slideshow img{
+  width:100%;
+  border-radius:15px;
+  display:none;
+}
+
+.slideshow img.active{
+  display:block;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Floating hearts -->
+<script>
+for(let i=0;i<18;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=14+Math.random()*18+"px";
+  h.style.animationDuration=6+Math.random()*4+"s";
+  document.body.appendChild(h);
+}
+</script>
+
+<div class="container">
+  <h1>Hey Love 💕</h1>
+  <div class="teddy">🧸</div>
+
+  <div class="envelope">
+    <div class="envelope-text">Will you be my Valentine?</div>
+
+    <div class="buttons" id="buttonBox">
+      <button id="yes">Yes 💖</button>
+      <button id="no">No 🙈</button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h1 style="font-family:Pacifico;color:var(--red)">YAYYY! 💘</h1>
+    <p>This card is for the most and only special cutupie i have - MY SWATIII ❤️</p>
+
+    <div class="slideshow" id="slideshow">
+      <img src="images/img1.jpg" class="active">
+      <img src="images/img2.jpg">
+      <img src="images/img3.jpg">
+      <img src="images/img4.jpg">
+    </div>
+
+    <p style="margin-top:10px;font-family:Pacifico;color:var(--red)">
+      Made with love - by your cutu 💖
+      <a href="love.html" style="
+  display:inline-block;
+  margin-top:12px;
+  font-family:Pacifico;
+  color:#ff4d6d;
+  text-decoration:none;
+  font-size:18px;
+">
+  Tap here sweetu 💕
+</a>
+
+    </p>
+  </div>
+</div>
+
+<script>
+const no = document.getElementById("no");
+const yes = document.getElementById("yes");
+const box = document.getElementById("buttonBox");
+const popup = document.getElementById("popup");
+
+let currentX = 0;
+let currentY = 0;
+
+/* Medium-distance, iOS-safe movement */
+function moveNo() {
+  const padding = 8; // safe margin inside envelope
+  const step = 60;   // 👈 MEDIUM distance (tweak 50–80 if you want)
+
+  const maxX = box.clientWidth - no.offsetWidth - padding;
+  const maxY = box.clientHeight - no.offsetHeight - padding;
+
+  // Pick random direction
+  const dx = (Math.random() > 0.5 ? 1 : -1) * step;
+  const dy = (Math.random() > 0.5 ? 1 : -1) * step;
+
+  // Update position
+  currentX += dx;
+  currentY += dy;
+
+  // Clamp inside envelope (IMPORTANT for iOS)
+  currentX = Math.max(padding, Math.min(currentX, maxX));
+  currentY = Math.max(padding, Math.min(currentY, maxY));
+
+  no.style.transform = `translate(${currentX}px, ${currentY}px)`;
+}
+
+/* Tap / click only */
+no.addEventListener("click", (e) => {
+  e.preventDefault();
+  moveNo();
+});
+
+/* YES */
+yes.onclick = () => {
+  popup.style.display = "flex";
+  yes.classList.add("heartbeat");
+  confetti();
+};
+
+/* Confetti */
+function confetti(){
+  for(let i=0;i<25;i++){
+    const c=document.createElement("div");
+    c.innerHTML="💖";
+    c.style.position="fixed";
+    c.style.left=Math.random()*100+"vw";
+    c.style.top="-20px";
+    c.style.fontSize="22px";
+    c.style.animation="float 4s linear";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  }
+}
+
+let slideshowStarted = false;
+
+function startSlideshow() {
+  if (slideshowStarted) return; // prevents duplicate intervals
+  slideshowStarted = true;
+
+  const images = document.querySelectorAll("#slideshow img");
+  let index = 0;
+
+  if (images.length <= 1) return;
+
+  setInterval(() => {
+    images[index].classList.remove("active");
+    index = (index + 1) % images.length;
+    images[index].classList.add("active");
+  }, 2500);
+}
+
+yes.onclick = () => {
+  popup.style.display = "flex";
+  yes.classList.add("heartbeat");
+  confetti();
+  startSlideshow(); // 👈 THIS LINE
+};
+
+</script>
+
+</body>
+</html>
